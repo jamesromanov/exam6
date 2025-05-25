@@ -1,0 +1,151 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  """User id"""
+  id: ID!
+
+  """User name"""
+  name: String!
+
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+
+  """User Role"""
+  role: UserRole!
+
+  """User Refreshtoken"""
+  refreshToken: String
+
+  """User status"""
+  isActive: Boolean!
+
+  """User created time"""
+  createdAt: DateTime!
+
+  """User updated time"""
+  updatedAt: DateTime!
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Poll {
+  """Poll id"""
+  id: Int!
+
+  """Poll question"""
+  question: String!
+
+  """Poll options"""
+  options: [String!]!
+
+  """Poll status"""
+  isActive: Boolean!
+
+  """Poll user"""
+  createdBy: User!
+
+  """Poll created time"""
+  createdAt: DateTime!
+}
+
+type CustomPoll {
+  """Poll totalpage"""
+  totalPages: Int!
+
+  """Poll page"""
+  currentPage: Int!
+
+  """Poll nest page"""
+  hasNextPage: Int!
+
+  """Poll totalcount"""
+  totalPolls: Int!
+
+  """Polls"""
+  data: [Poll!]!
+}
+
+type Vote {
+  """Vote id"""
+  id: Int!
+
+  """Vote user id"""
+  userId: User!
+
+  """Vote poll"""
+  pollId: Poll!
+
+  """Vote selected option"""
+  selectedOption: String!
+
+  """Vote status"""
+  isActive: Boolean!
+
+  """Vote created time"""
+  createdAt: DateTime!
+}
+
+type CustomVote {
+  """TotalPages"""
+  totalPages: Int!
+
+  """Currentpage"""
+  currentPage: Int!
+
+  """Has next page"""
+  hasNextPage: Boolean!
+
+  """Votes count"""
+  totalVotes: Int!
+
+  """Votes"""
+  data: [Vote!]!
+}
+
+type Query {
+  votes(page: Int! = 1, limit: Int! = 10): CustomVote!
+  vote(id: Int!): Vote!
+  polls(page: Int!, limit: Int!): CustomPoll!
+  adminPolls(page: Int!, limit: Int!): CustomPoll!
+}
+
+type Mutation {
+  votes(createVoteInput: CreateVoteInput!): Vote!
+  updateVote(updateVoteInput: UpdateVoteInput!, id: Float!): Vote!
+  removeVote(id: Int!): Vote!
+}
+
+input CreateVoteInput {
+  """Vote poll"""
+  pollId: ID!
+
+  """Vote selected option"""
+  selectedOption: String!
+
+  """Vote status"""
+  isActive: Boolean! = true
+}
+
+input UpdateVoteInput {
+  """Vote poll"""
+  pollId: ID
+
+  """Vote selected option"""
+  selectedOption: String
+
+  """Vote status"""
+  isActive: Boolean = true
+}
