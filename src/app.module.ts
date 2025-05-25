@@ -67,10 +67,10 @@ import { VotelogModule } from './votelog/votelog.module';
   ],
   providers: [
     AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: GqlThrottlerGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: GqlThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
